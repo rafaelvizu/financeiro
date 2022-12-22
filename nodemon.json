@@ -1,7 +1,7 @@
 {
-     "watch": ["src"],
-     "ext": "ts",
-     "execMap": {
-          "ts": "cls && sucrase-node src/index.ts"
-     }
+   "watch": ["src"],
+   "ext": "ts",
+   "execMap": {
+     "ts": "cls && ts-node src/server.ts"
+   }  
 }
