@@ -1,5 +1,5 @@
 import Category from "../models/category";
-import {Request, Response} from "express";
+import { Request, Response } from "express";
 
 export default new class categoryController
 {
@@ -82,7 +82,7 @@ export default new class categoryController
           })
      }
 
-     private validadeFields(name:string, description:string): boolean
+     private async validadeFields(name:string, description:string): Promise<boolean | void>
      {
           if (!name || !description) 
                return false;
@@ -91,6 +91,9 @@ export default new class categoryController
                return false;
      
           if (description.length < 3 || description.length > 100)
+               return false;
+
+          if (await Category.findOne({ name }))
                return false;
           
           return true;

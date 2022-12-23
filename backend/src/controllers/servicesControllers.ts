@@ -1,5 +1,7 @@
 import { Response, Request } from "express";
 import Services from "../models/services";
+import Category from "../models/category";
+
 
 export default new class Controllers
 {
@@ -13,6 +15,7 @@ export default new class Controllers
      }
      public async getServices(req:Request, res:Response): Promise<Response | void>
      {
+          console.log(1)
           await Services.find()
           .then((services) => {
                return res.status(200).json(services);
@@ -25,10 +28,10 @@ export default new class Controllers
 
      public async addService(req:Request, res:Response): Promise<Response | void>
      {
-          const { name, description, price } = req.body;
+          const { name, description, price, category } = req.body;
 
           try {
-               if (!this.validadeFields(name, description, price)) {
+               if (!this.validadeFields(name, description, price, category)) {
                     return res.status(400).json({ message: "Invalid Fields" });
 
                } else {
@@ -36,10 +39,11 @@ export default new class Controllers
                          name,
                          description,
                          price,
+                         category,
                          createAt: new Date()
                     })
                     .then(() => {
-                         return res.status(201).json({ message: "Service Created" });
+                         return res.status(200).json({ message: "Service Created" });
                     })
                     .catch(err => {
                          console.error(err);
@@ -55,10 +59,10 @@ export default new class Controllers
 
      public async updateService(req:Request, res:Response): Promise<Response | void>
      {
-          const {id, name, description, price } = req.body;
+          const {id, name, description, price, category} = req.body;
 
           try {
-               if (!this.validadeFields(name, description, price) || !id)
+               if (!this.validadeFields(name, description, price, category) || !id)
                     return res.status(400).json({ message: "Invalid Fields" });
 
                await Services.updateOne({
@@ -66,6 +70,7 @@ export default new class Controllers
                     name,
                     description,
                     price,
+                    category
                })
                .then(() => {
                     return res.status(200).json({ message: "Service Updated" });
@@ -109,7 +114,7 @@ export default new class Controllers
           })
      }
 
-     private validadeFields(name:string, description:string, price:number): boolean
+     private async validadeFields(name:string, description:string, price:number, category:string): Promise<boolean>
      {
           if(!name || !description || !price)
                return false;
@@ -121,6 +126,9 @@ export default new class Controllers
                return false;
 
           if (price < 0)
+               return false;
+          
+          if (await Category.findOne({ name: category }))
                return false;
 
 
