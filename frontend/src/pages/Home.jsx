@@ -1,53 +1,92 @@
-import api from "../services/api"
-import { useEffect, useState } from "react"
+import api from "../services/api";
+import { useEffect, useState } from "react";
+import "../assets/styles/home.css"; 
+import { Link } from "react-router-dom";
+import ServiceComponent from "../components/ServiceComponent";
 
 export default function Home() {
-     const [services, setServices] = useState([]);
+     const [services, setServices] = useState({});
+     const [category, setCategory] = useState({});
      const [totalPrice, setTotalPrice] = useState(0);
      const [totalServices, setTotalServices] = useState(0);
-     const [totalCategory, setTotalCategory] = useState(0);
 
-     function setTotal() {
-          services.map((service) => {
-               setTotalPrice(totalPrice + service.price);
-               setTotalServices(totalServices + 1);
-               setTotalCategory(totalCategory + 1);
+     async function setTotal(data) {
+          let price = 0;
+
+          data.forEach(service => {
+               price += service.price;
           });
+
+          setTotalPrice(price);
+          setTotalServices(data.length);
+          setServices(data);
+          
+          return;
      }
 
      useEffect(() => {
-          api.get("/services").then((response) => {
-               setServices(response.data);               
-               setTotal();
+          api.get("/services").then(async (response) => {
+               await setTotal(response.data);
           });
+
+          api.get("/category").then(async (response) => {
+               setTotalCategory(response.data.length);
+               
+               if (response.data == category) return;
+
+               setCategory(response.data);
+          });
+
+          return;
      }, []);
 
      // real-time
      useEffect(() => {
-          setTimeout(() => {
-               api.get("/services").then((response) => {
+          setTimeout(async () => {
+               await api.get("/services").then(async (response) => {
                     if (response.data == services) return;
 
-                    setServices(response.data);
-                    setTotal();
+                    await setTotal(response.data) 
+
                });
+
+               await api.get("/category").then(async (response) => {
+                    setTotalCategory(response.data.length);
+
+                    if (response.data == category) return;
+
+                    setCategory(response.data);
+               });
+
+               return;
           }, 60000);
-     }, [services]);
+     });
 
      return (
-          <main>    
-               <h1>Home</h1>
+          <main className="home-container">    
+               <div className="total-container">
+                    <div>
+                         <p>
+                              R$ {totalPrice.toFixed(2)}
+                         </p>
+                         <h6>Valor total</h6>
+                    </div>
+                    <div>
+                         <p>
+                              {totalServices}
+                         </p>
+                         <h6>Total de serviços</h6>
+                    </div>
 
-               {
-                    services.map((service) => {
-                         return (
-                              <div key={service._id}>
-                                   <h2>{service.name}</h2>
-                                   <p>{service.description}</p>
-                              </div>
-                         )
-                    })
-               }
+               </div>
+               <div className="sub-container">
+                    <ul>
+                         <li><Link>Adicionar serviço</Link></li>
+                         <li><Link>Adicionar categória de serviço</Link></li>
+                    </ul>
+                    <ServiceComponent services={services}/>
+               </div>
+ 
           </main>
      )
 }
