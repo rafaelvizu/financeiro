@@ -15,7 +15,6 @@ export default new class Controllers
      }
      public async getServices(req:Request, res:Response): Promise<Response | void>
      {
-          console.log(1)
           await Services.find()
           .then((services) => {
                return res.status(200).json(services);
@@ -31,7 +30,7 @@ export default new class Controllers
           const { name, description, price, category } = req.body;
 
           try {
-               if (!this.validadeFields(name, description, price, category)) {
+               if (!await this.validadeFields(name, description, price, category)) {
                     return res.status(400).json({ message: "Invalid Fields" });
 
                } else {

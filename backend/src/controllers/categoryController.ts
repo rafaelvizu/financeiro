@@ -29,7 +29,7 @@ export default new class categoryController
 
           try
           {
-               if (!this.validadeFields(name, description))
+               if (!await this.validadeFields(name, description))
                     return res.status(400).json({ message: "Invalid fields" });
 
                await Category.create({ name, description })
@@ -84,6 +84,7 @@ export default new class categoryController
 
      private async validadeFields(name:string, description:string): Promise<boolean | void>
      {
+          
           if (!name || !description) 
                return false;
           
@@ -95,7 +96,7 @@ export default new class categoryController
 
           if (await Category.findOne({ name }))
                return false;
-          
+
           return true;
      }
 }

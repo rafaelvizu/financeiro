@@ -6,7 +6,6 @@ import ServiceComponent from "../components/ServiceComponent";
 
 export default function Home() {
      const [services, setServices] = useState({});
-     const [category, setCategory] = useState({});
      const [totalPrice, setTotalPrice] = useState(0);
      const [totalServices, setTotalServices] = useState(0);
 
@@ -28,15 +27,6 @@ export default function Home() {
           api.get("/services").then(async (response) => {
                await setTotal(response.data);
           });
-
-          api.get("/category").then(async (response) => {
-               setTotalCategory(response.data.length);
-               
-               if (response.data == category) return;
-
-               setCategory(response.data);
-          });
-
           return;
      }, []);
 
@@ -48,14 +38,6 @@ export default function Home() {
 
                     await setTotal(response.data) 
 
-               });
-
-               await api.get("/category").then(async (response) => {
-                    setTotalCategory(response.data.length);
-
-                    if (response.data == category) return;
-
-                    setCategory(response.data);
                });
 
                return;
@@ -82,7 +64,7 @@ export default function Home() {
                <div className="sub-container">
                     <ul>
                          <li><Link>Adicionar serviço</Link></li>
-                         <li><Link>Adicionar categória de serviço</Link></li>
+                         <li><Link to="/addcategory">Adicionar categória de serviço</Link></li>
                     </ul>
                     <ServiceComponent services={services}/>
                </div>

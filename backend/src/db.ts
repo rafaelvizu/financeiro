@@ -48,6 +48,7 @@ class Database {
      {
           return mongoose.model(name, new mongoose.Schema(structSchema));
      }
+
 }
 
 export default new Database(process.env.DB_URL || '');
