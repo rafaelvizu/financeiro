@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import Services from "../models/services";
-import Category from "../models/category";
+import { ValidateService } from "./validateFields";
 
 
 export default new class Controllers
@@ -8,7 +8,6 @@ export default new class Controllers
 
      constructor()
      {
-          this.validadeFields = this.validadeFields.bind(this);
           this.addService = this.addService.bind(this);
           this.getServices = this.getServices.bind(this);
           this.updateService = this.updateService.bind(this);
@@ -26,62 +25,56 @@ export default new class Controllers
      }
 
      public async addService(req:Request, res:Response): Promise<Response | void>
-     {
+     {   
           const { name, description, price, category } = req.body;
 
-          try {
-               if (!await this.validadeFields(name, description, price, category)) {
-                    return res.status(400).json({ message: "Invalid Fields" });
+          const dataValidated = await ValidateService.initDefault(name, description, price, category);
 
-               } else {
-                    await Services.create({
-                         name,
-                         description,
-                         price,
-                         category,
-                         createAt: new Date()
-                    })
-                    .then(() => {
-                         return res.status(200).json({ message: "Service Created" });
-                    })
-                    .catch(err => {
-                         console.error(err);
-                         return res.status(500).json({ message: "Internal Server Error" });
-                    });
-               }
-          }
-          catch (err) {
-               console.error(err);
+          if (!dataValidated) {
                return res.status(400).json({ message: "Invalid Fields" });
-          }
+          }    
+
+          await Services.create({
+               name: dataValidated.name,
+               description: dataValidated.description,
+               price: dataValidated.price,
+               category: dataValidated.category,
+               createAt: new Date()
+          })
+          .then(() => {
+               return res.status(200).json({ message: "Service Created" });
+          })
+          .catch(err => {
+               console.error(err);
+               return res.status(500).json({ message: "Internal Server Error" });
+          });
+ 
+
      }
 
      public async updateService(req:Request, res:Response): Promise<Response | void>
      {
           const {id, name, description, price, category} = req.body;
 
-          try {
-               if (!this.validadeFields(name, description, price, category) || !id)
-                    return res.status(400).json({ message: "Invalid Fields" });
+          const dataValidated = await ValidateService.initDefault(name, description, price, category);
 
-               await Services.updateOne({
-                    _id: id,
-                    name,
-                    description,
-                    price,
-                    category
-               })
-               .then(() => {
-                    return res.status(200).json({ message: "Service Updated" });
-               })
-               .catch(() => {
-                    return res.status(500).json({ message: "Internal Server Error" });    
-               });
-
-          }
-          catch (err) {
+          if (!dataValidated || !id)
                return res.status(400).json({ message: "Invalid Fields" });
-          }
+
+
+          await Services.updateOne({
+               _id: id,
+               name: dataValidated.name,
+               description: dataValidated.description,
+               price: dataValidated.price,
+               category: dataValidated.category
+          })
+          .then(() => {
+               return res.status(200).json({ message: "Service Updated" });
+          })
+          .catch(() => {
+               return res.status(500).json({ message: "Internal Server Error" });    
+          });
      }
 
      public async deleteService(req:Request, res:Response): Promise<Response | void>
@@ -113,24 +106,5 @@ export default new class Controllers
           })
      }
 
-     private async validadeFields(name:string, description:string, price:number, category:string): Promise<boolean>
-     {
-          if(!name || !description || !price)
-               return false;
 
-          if (name.length < 3 || name.length > 50)
-               return false;
-
-          if (description.length < 3 || description.length > 100)
-               return false;
-
-          if (price < 0)
-               return false;
-          
-          if (await Category.findOne({ name: category }))
-               return false;
-
-
-          return true;
-     }
 }

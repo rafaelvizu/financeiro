@@ -63,7 +63,7 @@ export default function Home() {
                </div>
                <div className="sub-container">
                     <ul>
-                         <li><Link>Adicionar serviço</Link></li>
+                         <li><Link to="/addservice">Adicionar serviço</Link></li>
                          <li><Link to="/addcategory">Adicionar categória de serviço</Link></li>
                     </ul>
                     <ServiceComponent services={services}/>

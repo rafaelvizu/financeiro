@@ -1,11 +1,11 @@
 import Category from "../models/category";
 import { Request, Response } from "express";
+import { ValidateCategory } from "./validateFields";
 
 export default new class categoryController
 {
      constructor()
      {
-          this.validadeFields = this.validadeFields.bind(this);
           this.addCategory = this.addCategory.bind(this);
           this.getCategories = this.getCategories.bind(this);
           this.updateCategory = this.updateCategory.bind(this);
@@ -27,45 +27,42 @@ export default new class categoryController
      {
           const { name, description } = req.body; 
 
-          try
-          {
-               if (!await this.validadeFields(name, description))
-                    return res.status(400).json({ message: "Invalid fields" });
+          const dataValidated = await ValidateCategory.initDefault(name, description);
 
-               await Category.create({ name, description })
-               .then(() => {
-                    return res.status(200).json({ message: "Category created" });
-               })
-               .catch((err) => {
-                    console.error(err);
-                    return res.status(500).json({ message: "Internal Server Error" });
-               });
-          }
-          catch {
-               return res.status(400).json({ message: "Invalid Fields" });
-          }
+          if (!dataValidated)
+               return res.status(400).json({ message: "Invalid fields" });
+
+          await Category.create({ name, description })
+          .then(() => {
+               return res.status(200).json({ message: "Category created" });
+          })
+          .catch((err) => {
+               console.error(err);
+               return res.status(500).json({ message: "Internal Server Error" });
+          });
+
      }
 
      public async updateCategory(req:Request, res:Response): Promise<Response | void>
      {
           const { id, name, description } = req.body;
+          const dataValidated = await ValidateCategory.initDefault(name, description);
 
-          try {
-               if (!this.validadeFields(name, description) || !id)
-                    return res.status(400).json({ message: "Invalid fields" });
+          if (!dataValidated || !id)
+               return res.status(400).json({ message: "Invalid fields" });
 
-               await Category.updateOne({ _id: id })
-               .then(() => {
-                    return res.status(200).json({ message: "Category updated" });
-               })
-               .catch((err) => {
-                    console.error(err);
-                    return res.status(500).json({ message: "Internal Server Error" });
-               });
-          }
-          catch {
-               return res.status(400).json({ message: "Invalid Fields" });
-          }
+          await Category.updateOne({ _id: id }, {
+               name: dataValidated.name,
+               description: dataValidated.description
+          })
+          .then(() => {
+               return res.status(200).json({ message: "Category updated" });
+          })
+          .catch((err) => {
+               console.error(err);
+               return res.status(500).json({ message: "Internal Server Error" });
+          });
+
      }
 
      public async deleteCategory(req:Request, res:Response): Promise<Response | void>
@@ -82,21 +79,5 @@ export default new class categoryController
           })
      }
 
-     private async validadeFields(name:string, description:string): Promise<boolean | void>
-     {
-          
-          if (!name || !description) 
-               return false;
-          
-          if (name.length < 3 || name.length > 20)
-               return false;
-     
-          if (description.length < 3 || description.length > 100)
-               return false;
 
-          if (await Category.findOne({ name }))
-               return false;
-
-          return true;
-     }
 }
