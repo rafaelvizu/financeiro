@@ -25,23 +25,17 @@ export default function Home() {
 
      useEffect(() => {
           api.get("/services").then(async (response) => {
-               await setTotal(response.data);
+               api.validateDataApi(services, response) && await setTotal(response.data);
+               return;
           });
-          return;
      }, []);
 
      // real-time
      useEffect(() => {
-          setTimeout(async () => {
-               await api.get("/services").then(async (response) => {
-                    if (response.data == services) return;
-
-                    await setTotal(response.data) 
-
-               });
-
+          api.getTimeout("/services", 20000).then(async (response) => {
+               api.validateDataApi(services, response) && await setTotal(response.data);
                return;
-          }, 60000);
+          });
      });
 
      return (

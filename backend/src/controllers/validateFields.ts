@@ -7,34 +7,26 @@ class ValidateService
      static validateName(name:string) : string | boolean
      {
           const schema = Joi.object({
-               name: Joi.string().trim().min(3).max(50).required()
+               name: Joi.string().min(3).max(50).required()
           });
 
-          try {
-               schema.validate({ name });
-               name = name.trim();
-               return name;
-          }
-          catch {
-               return false;
-          }
-          
+          const valid = schema.validate({ name });
+          if (valid.error) return false;
+
+          return valid.value.name;
      }
 
      static validateDescription(description:string) : string | boolean
      {
           const schema = Joi.object({
-               description: Joi.string().trim().min(3).max(100).required()
+               description: Joi.string().min(3).max(100).required()
           });
 
-          try {
-               schema.validate({ description });
-               description = description.trim();
-               return description;
-          }
-          catch {
-               return false;
-          }
+          const valid = schema.validate({ description });
+          console.log(valid)
+          if (valid.error) return false;
+
+          return valid.value.description;
      }
 
      static validatePrice(price: number) : number | boolean
@@ -43,14 +35,11 @@ class ValidateService
                price: Joi.number().min(0).required()
           });
 
-          try {
-               price = Number(price);
-               schema.validate({ price });
-               return price;
-          }
-          catch {
-               return false;
-          }
+               let valid = schema.validate({ price });
+               
+               if (valid.error) return false;
+               return valid.value.price;
+
      }
 
      static async validateCategory(category:string)
@@ -98,20 +87,16 @@ class ValidateCategory
                name: Joi.string().trim().min(3).max(20).required()
           });
 
-          try {
-               schema.validate({ name });
-               name = name.trim();
+          const valid = schema.validate({ name });
 
-               const data = await Category.findOne({name});
+          if (valid.error) return false;
 
-               if (data) {
-                    return false;
-               } else {
-                    return name;
-               }
-          }
-          catch {
+          const data = await Category.findOne({name: valid.value.name});
+
+          if (data) {
                return false;
+          } else {
+               return name;
           }
      }
 

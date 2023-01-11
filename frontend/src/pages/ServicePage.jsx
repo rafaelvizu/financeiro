@@ -2,37 +2,25 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
 
+
 export default function ServicePage() {
 
      const { id } = useParams();
      const [service, setService] = useState([]);
 
      useEffect(() => {
-          getApi();
-
-          return;
+          api.get("/services/" + id).then((response) => {
+               api.validateDataApi(service, response) && setService(response.data);
+               return;
+          });
      }, [])
 
      useEffect(() => {
-          setTimeout(async () => {
-               await getApi();
-               return;
-          }, 60000)
-     });
-
-
-     async function getApi() {
-          await api.get("/services/" + id).then((response) => {
-               if (response.data == service) return;
-
-
-               setService(response.data);
-               setService(response.data);
-
-
+          api.getTimeout("/services/" + id, 1000).then((response) => {
+               api.validateDataApi(service, response) && setService(response.data);
                return;
           });
-     }
+     });
 
      return (
           <main>
@@ -42,6 +30,11 @@ export default function ServicePage() {
                     <p><strong>R$: </strong> {service.price!==undefined?service.price.toFixed(2):''}</p>
                     <p>{service.category}</p>
                </article>
+
+               <button>Editar</button>
+
+               
+
 
           </main>
      )
