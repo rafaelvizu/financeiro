@@ -4,6 +4,7 @@ import categoryRoute from './routes/categoryRoute';
 import servicesRoute from './routes/servicesRoute';
 import cors from 'cors';
 import compression from 'compression';
+import homeRoute from './routes/homeRoute';
 
 
 const app = express();
@@ -16,7 +17,7 @@ app.use(compression());
 
 app.use('/category', categoryRoute);
 app.use('/services', servicesRoute);
-
+app.use('/', homeRoute);
 
 DB.connect()
 .then(() => {
