@@ -1,6 +1,8 @@
-import Category from "../models/category";
+import Category from "../models/categoryModel";
 import { Request, Response } from "express";
-import { ValidateCategory } from "./validateFields";
+import { ValidateCategory } from "./validateFieldsController";
+import { Types } from "mongoose";
+
 
 export default new class categoryController
 {
@@ -25,14 +27,12 @@ export default new class categoryController
 
      public async addCategory(req:Request, res:Response): Promise<Response | void>
      {
-          const { name, description } = req.body; 
-
-          const dataValidated = await ValidateCategory.initDefault(name, description);
+          const dataValidated = await ValidateCategory.init(req.body);
 
           if (!dataValidated)
                return res.status(400).json({ message: "Invalid fields" });
 
-          await Category.create({ name, description })
+          await Category.create(dataValidated)
           .then(() => {
                return res.status(200).json({ message: "Category created" });
           })
@@ -45,16 +45,16 @@ export default new class categoryController
 
      public async updateCategory(req:Request, res:Response): Promise<Response | void>
      {
-          const { id, name, description } = req.body;
-          const dataValidated = await ValidateCategory.initDefault(name, description);
+          const { id } = req.body;
+
+          if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
+
+          const dataValidated = await ValidateCategory.init(req.body);
 
           if (!dataValidated || !id)
                return res.status(400).json({ message: "Invalid fields" });
 
-          await Category.updateOne({ _id: id }, {
-               name: dataValidated.name,
-               description: dataValidated.description
-          })
+          await Category.updateOne({ _id: id }, dataValidated)
           .then(() => {
                return res.status(200).json({ message: "Category updated" });
           })
@@ -69,6 +69,8 @@ export default new class categoryController
      {
           const { id } = req.body;
 
+          if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
+
           Category.deleteOne({ _id: id })
           .then(() => {
                return res.status(200).json({ message: "Category deleted" });
@@ -79,5 +81,20 @@ export default new class categoryController
           })
      }
 
+     public async getCategoryById(req:Request, res:Response): Promise<Response | void>
+     {
+          const { id } = req.params;
 
+          if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
+
+          await Category.findOne({ _id: id })
+          .then((doc) => {
+               if (!doc) return res.status(404).json({ message: "Category not found" });
+               return res.status(200).json(doc);
+          })
+          .catch(err => {
+               console.error(err);
+               return res.status(500).json({ message: "Internal Server Error" });
+          });
+     }
 }

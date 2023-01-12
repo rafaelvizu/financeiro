@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
-import Services from "../models/services";
-import { ValidateService } from "./validateFields";
-
+import Services from "../models/servicesModel";
+import { ValidateService } from "./validateFieldsController";
+import { Types } from "mongoose";
 
 export default new class Controllers
 {
@@ -26,21 +26,13 @@ export default new class Controllers
 
      public async addService(req:Request, res:Response): Promise<Response | void>
      {   
-          const { name, description, price, category } = req.body;
-
-          const dataValidated = await ValidateService.initDefault(name, description, price, category);
+          const dataValidated = await ValidateService.init(req.body);
 
           if (!dataValidated) {
                return res.status(400).json({ message: "Invalid Fields" });
           }    
 
-          await Services.create({
-               name: dataValidated.name,
-               description: dataValidated.description,
-               price: dataValidated.price,
-               category: dataValidated.category,
-               createAt: new Date()
-          })
+          await Services.create(dataValidated)
           .then(() => {
                return res.status(200).json({ message: "Service Created" });
           })
@@ -48,27 +40,23 @@ export default new class Controllers
                console.error(err);
                return res.status(500).json({ message: "Internal Server Error" });
           });
- 
 
      }
 
      public async updateService(req:Request, res:Response): Promise<Response | void>
      {
-          const {id, name, description, price, category} = req.body;
+          const { id } = req.body;
 
-          const dataValidated = await ValidateService.initDefault(name, description, price, category);
+          if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
+
+          const dataValidated = await ValidateService.init(req.body);
 
           if (!dataValidated || !id)
                return res.status(400).json({ message: "Invalid Fields" });
 
+          delete dataValidated.createAt;    
 
-          await Services.updateOne({
-               _id: id,
-               name: dataValidated.name,
-               description: dataValidated.description,
-               price: dataValidated.price,
-               category: dataValidated.category
-          })
+          await Services.updateOne(dataValidated)
           .then(() => {
                return res.status(200).json({ message: "Service Updated" });
           })
@@ -80,6 +68,8 @@ export default new class Controllers
      public async deleteService(req:Request, res:Response): Promise<Response | void>
      {
           const { id } = req.body;
+
+          if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
 
           Services.deleteOne({ _id: id })
           .then(() => {
@@ -94,6 +84,8 @@ export default new class Controllers
      public async getServiceById(req:Request, res:Response): Promise<Response | void>
      {
           const { id } = req.params;
+
+          if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
 
           await Services.findOne({ _id: id })
           .then((doc) => {
