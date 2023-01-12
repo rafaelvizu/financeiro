@@ -49,11 +49,11 @@ export default new class categoryController
 
           if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
 
-          const dataValidated = await ValidateCategory.init(req.body);
+          const dataValidated = await ValidateCategory.init(req.body, id);
 
           if (!dataValidated || !id)
                return res.status(400).json({ message: "Invalid fields" });
-
+          
           await Category.updateOne({ _id: id }, dataValidated)
           .then(() => {
                return res.status(200).json({ message: "Category updated" });

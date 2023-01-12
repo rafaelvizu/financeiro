@@ -38,9 +38,17 @@
 
 * Envia como resposta um json com todos os serviços cadastrados;
 
+### /services/:id
+
+* Envia como resposta um json com o serviço correspondente ao id
+
 #### /category
 
 * Envia como resposta um json com todas as categórias cadastradas;
+
+### /category/:id
+
+* Envia como resposta um json com a categória correspondente ao id
 
 ### POST
 
@@ -103,3 +111,5 @@
 * O campo *name* precisa ter de 3 a 20 caracteres;
 
 * O campo *description* precisa ter de 3 a 100 caracteres;
+  
+## Criado por: Rafael Vizú

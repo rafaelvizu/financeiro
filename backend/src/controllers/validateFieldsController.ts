@@ -26,6 +26,7 @@ class ValidateService
 
           valid.value.category = category;
           valid.value.createAt = new Date();
+          valid.value.updateAt = new Date();
 
           return valid.value;
      }
@@ -33,7 +34,7 @@ class ValidateService
 
 class ValidateCategory
 {
-     static async init({ name, description, category } : { name:string, description:string, category:string })
+     static async init({name, description, category} : {name:string, description:string, category:string}, update:string = "" )
      {
 
           const valid = Joi.object({
@@ -42,9 +43,19 @@ class ValidateCategory
           }).validate({ name, description });
 
           if (valid.error) return false;
-          if (await ValidateService.validateCategory(category)) return false;
+
+          const data = await Category.findOne({name: name}) 
+          
+          if (data && !update) return false;
+          if (data) {
+               if (update && data.id !== update) return false;
+          }
+          
 
           valid.value.category = category;
+          update?'':valid.value.createAt = new Date();
+          valid.value.updateAt = new Date();
+          
           return valid.value;
      }
 }

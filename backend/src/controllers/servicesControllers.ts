@@ -12,6 +12,7 @@ export default new class Controllers
           this.getServices = this.getServices.bind(this);
           this.updateService = this.updateService.bind(this);
      }
+     
      public async getServices(req:Request, res:Response): Promise<Response | void>
      {
           await Services.find()
@@ -34,7 +35,7 @@ export default new class Controllers
 
           await Services.create(dataValidated)
           .then(() => {
-               return res.status(200).json({ message: "Service Created" });
+               return res.status(200).json({ message: "Service Created"});
           })
           .catch(err => {
                console.error(err);
@@ -50,7 +51,6 @@ export default new class Controllers
           if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
 
           const dataValidated = await ValidateService.init(req.body);
-
           if (!dataValidated || !id)
                return res.status(400).json({ message: "Invalid Fields" });
 

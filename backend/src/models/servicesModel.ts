@@ -5,5 +5,6 @@ export default DB.creteModel('Services', {
      description: String,
      price: Number,
      category: String,
-     createAt: Date
+     createAt: Date,
+     updateAt: Date,
 });
