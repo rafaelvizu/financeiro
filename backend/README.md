@@ -38,7 +38,7 @@
 
 * Envia como resposta um json com todos os serviços cadastrados;
 
-### /services/:id
+#### /services/:id
 
 * Envia como resposta um json com o serviço correspondente ao id
 
@@ -46,7 +46,7 @@
 
 * Envia como resposta um json com todas as categórias cadastradas;
 
-### /category/:id
+#### /category/:id
 
 * Envia como resposta um json com a categória correspondente ao id
 
