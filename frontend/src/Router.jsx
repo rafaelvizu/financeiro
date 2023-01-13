@@ -3,10 +3,12 @@ import Home from './pages/Home';
 import AddCategory from './pages/AddCategory'
 import AddService from './pages/AddService'
 import ServicePage from './pages/ServicePage';
+import Header from './components/Header';
 
 function RouteApp() {
      return (
           <BrowserRouter>
+               <Header/>
                <Routes>
                     <Route path='/service/:id' element={<ServicePage/>}/>
                     <Route path='/addservice' element={<AddService/>}/>
