@@ -22,7 +22,7 @@ export default function Home() {
      }, []);
 
      return (
-          <main>
+          <main id="home">
                <h2>Dashboard</h2>
                <div className="data-container">
                     <article>
@@ -36,9 +36,10 @@ export default function Home() {
                     </article>
 
                     <article>
-                         <p>{totalPrice}</p>
+                         <p>R$ {totalPrice.toFixed(2)}</p>
                          <h3>Total de preços</h3>
                     </article>
+
                </div>
           </main>
      )

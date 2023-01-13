@@ -1,52 +1,85 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../assets/styles/header.css";
 
 export default function Header() {
+     const [count, setCount] = useState(0);
+
      useEffect(() => {
-          class MobileMenu
-          {
-               constructor()
-               {
-                    this.mobileMenu = document.querySelector('.mobile-menu');
-                    this.navList = document.querySelector('.nav-list');
-                    this.navLinks = document.querySelectorAll('.nav-list > li');
-                    this.activeClass = "active";   
-                    
+          class MobileNavBar {
+               constructor(mobileMenu, navList, navLinks) {
+                    this.mobileMenu = document.querySelector(mobileMenu);
+                    this.navList = document.querySelector(navList);
+                    this.navLinks = document.querySelectorAll(navLinks);
+                    this.activeClass = "active";
+          
                     this.handleClick = this.handleClick.bind(this);
                }
-
-               handleClick()
-               {
+          
+          
+               handleClick() {
                     this.navList.classList.toggle(this.activeClass);
                }
-
-               addClickEvent()
-               {
-                    this.mobileMenu.addEventListener('click', this.handleClick);
+          
+               addClickEvent() {
+                    this.mobileMenu.addEventListener("click", () => this.handleClick());
                }
-
-               addLinkEvent() 
-               {
-                    this.navLinks.forEach((link) => {
-                         link.addEventListener('click', this.handleClick);
+          
+               addLinkEvent() {
+                    this.navLinks.forEach(li => {
+                         li.addEventListener("click", () => {
+                              this.handleClick();
+                         });
                     });
                }
-
-               init()
-               {
+          
+               init() {
                     if (this.mobileMenu) {
-                         this.addClickEvent();
                          this.addLinkEvent();
-                    }
+                         this.addClickEvent();
+                    } 
+                    
                     return this;
                }
-
-               
           }
+          class NavBarFixed {
+               constructor(containerSelector) {
+                    this.container = document.querySelector(containerSelector);
+               }
           
-          new MobileMenu().init()
-     })
+               scrollEventHeader() {
+                    const container = this.container;
+          
+                    window.onload = function(e) {
+                         const offset = container.offsetTop;
+                         const menu = container;
+          
+                         document.addEventListener('scroll', function() {
+                              if (document.body.scrollTop > offset || document.documentElement.scrollTop > offset) {
+                                   menu.style.position = 'fixed';     
+                              } else {
+                                   menu.style.position = 'static';
+                              }
+                         });
+                    }
+               }
+          
+               init() {
+                    this.scrollEventHeader();
+
+                    return this;
+               }
+          
+          }
+     
+
+          const mobileNavBar = new MobileNavBar('.mobile-menu', '.nav-list', '.nav-list li').init();
+          const navBarFixed = new NavBarFixed('.header-container').init();
+
+          console.log(mobileNavBar, navBarFixed)
+
+          return;
+     }, [])
 
      return (
           <div className="header-container">
