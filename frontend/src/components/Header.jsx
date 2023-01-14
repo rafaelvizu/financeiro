@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../assets/styles/header.css";
 
 export default function Header() {
-     const [count, setCount] = useState(0);
 
      useEffect(() => {
           class MobileNavBar {
@@ -73,10 +72,8 @@ export default function Header() {
           }
      
 
-          const mobileNavBar = new MobileNavBar('.mobile-menu', '.nav-list', '.nav-list li').init();
-          const navBarFixed = new NavBarFixed('.header-container').init();
-
-          console.log(mobileNavBar, navBarFixed)
+          new MobileNavBar('.mobile-menu', '.nav-list', '.nav-list li').init();
+          new NavBarFixed('.header-container').init();
 
           return;
      }, [])
