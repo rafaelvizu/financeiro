@@ -1,8 +1,7 @@
 import api from "../services/api";
 import { useEffect, useState } from "react";
 import "../assets/styles/home.css"; 
-import { Link } from "react-router-dom";
-import ServiceComponent from "../components/ServiceComponent";
+
 
 export default function Home() {
      

@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home'; 
-import AddCategory from './pages/AddCategory'
-import AddService from './pages/AddService'
 import ServicePage from './pages/ServicePage';
+import CategoryPage from './pages/CategoryPage';
 import Header from './components/Header';
 
 function RouteApp() {
@@ -10,9 +9,8 @@ function RouteApp() {
           <BrowserRouter>
                <Header/>
                <Routes>
-                    <Route path='/service/:id' element={<ServicePage/>}/>
-                    <Route path='/addservice' element={<AddService/>}/>
-                    <Route path='/addcategory' element={<AddCategory/>}/>
+                    <Route path="/category" element={<CategoryPage/>}/>
+                    <Route path="/services" element={<ServicePage/>}/>
                     <Route path="/" element={<Home/>}/>
                </Routes>
           </BrowserRouter>
