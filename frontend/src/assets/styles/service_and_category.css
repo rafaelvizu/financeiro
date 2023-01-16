@@ -1,0 +1,26 @@
+.service-and-category {
+     min-height: calc(100vh - 320px);
+     text-align: center;
+}
+.service-and-category h2 {
+     font-size: 3em;
+     padding: 40px;
+     color: rgba(0, 0, 0, 0.8);
+}
+
+.service-and-category .data-container {
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+     align-items: center;
+     padding: 20px;
+}
+
+.service-and-category .data {
+     margin: 10px;
+     width: 200px;
+     border: 1px solid black;
+     padding: 20px;
+     border-radius: 15px;
+     overflow-x: scroll;
+}

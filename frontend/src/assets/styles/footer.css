@@ -1,0 +1,40 @@
+footer {
+     margin-top: 100px;
+     height: 150px;
+     background-color: black;
+     display: flex;
+     align-items: center;
+     justify-content: space-around;
+     flex-wrap: wrap;
+}
+
+footer div {
+     margin: 30px;
+}
+
+footer img {
+     background-color: white;
+     border-radius: 50%;
+     border: 2px solid white;
+     margin: 0px 10px;
+     opacity: 70%;
+}
+footer img:hover {
+     opacity: 100%;
+     transition: all 1s;
+}
+
+footer p {
+     color: rgba(255, 255, 255, 0.745);
+     font-size: 1.2rem;
+     font-style: italic;
+}
+
+footer a {
+     color: rgba(255, 255, 255, 0.845);
+     text-decoration: none;
+}
+footer a:hover {
+     color: rgb(255, 255, 255);
+     transition: all 1s;
+}

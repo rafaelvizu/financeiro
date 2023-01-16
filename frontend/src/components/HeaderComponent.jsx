@@ -55,7 +55,7 @@ export default function Header() {
           
                          document.addEventListener('scroll', function() {
                               if (document.body.scrollTop > offset || document.documentElement.scrollTop > offset) {
-                                   menu.style.position = 'fixed';     
+                                   menu.style.position = 'fixed'; 
                               } else {
                                    menu.style.position = 'static';
                               }
@@ -95,7 +95,7 @@ export default function Header() {
                               <Link to="/services">Serviços</Link>
                          </li>
                          <li>
-                              <Link to="/categories">Categorias</Link>
+                              <Link to="/category">Categorias</Link>
                          </li>
                     </ul>
                </nav>
