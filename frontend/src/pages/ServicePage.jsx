@@ -49,7 +49,7 @@ export default function ServicePage() {
      }, []);
 
      return (
-          !loadStatus?<LoadingComponent/>
+          loadStatus?<LoadingComponent/>
           :
           <main className="service-and-category">
                <h2>Serviços</h2>
