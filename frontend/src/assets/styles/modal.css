@@ -1,0 +1,60 @@
+.modal-container > button {
+     padding: 10px;
+     background: none;
+     border-radius: 15px;
+     margin: 10px;
+     border-color: rgba(0, 0, 0, 0.632);
+}
+.modal-container > button:active {
+     transition: all 0.1s;
+     background: rgba(0, 0, 0, 0.138);
+     border-color: rgba(0, 0, 0, 0.248);
+}
+
+.modal {
+     display: none;
+     position: fixed;
+     left: 0;
+     top: 0;
+     width: 100vw;
+     height: 100vh;
+     align-items: center;
+     justify-content: center;
+     background-color: rgba(0, 0, 0, 0.5);
+     z-index: 5;
+}
+
+.modal-children {
+     margin: 20px 0px;
+     width: 80vw;
+     min-height: 80vh;
+     background-color: white;
+     padding: 50px;
+     border-radius: 15px;
+     border: 1px solid black;
+
+}
+
+.modal-children img {
+     width: 30px;
+     cursor: pointer;
+     opacity: 50%;
+}
+.modal-children img:hover {
+     opacity: 100%;
+}
+.modal-children img:active {
+     transition: all 0.1s;
+     opacity: 50%;
+}
+
+
+@media (max-width: 999px) {
+     .modal-child {
+          width: 90vw;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+     }
+}

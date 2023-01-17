@@ -67,8 +67,7 @@ export default new class Controllers
 
      public async deleteService(req:Request, res:Response): Promise<Response | void>
      {
-          const { id } = req.body;
-
+          const { id } = req.params;
           if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
 
           Services.deleteOne({ _id: id })

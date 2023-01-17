@@ -31,7 +31,7 @@ export default function ServiceComponent(props)
                     services.map((service) => {
                          return (
                               <tr key={service._id}>
-                                   <td><Link to={`/service/${service._id}`}>{service.name}</Link></td>
+                                   <td>{service.name}</td>
                                    <td>
                                         {
                                              service.description.length > 20 ?

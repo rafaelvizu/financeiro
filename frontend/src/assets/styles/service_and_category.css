@@ -25,72 +25,77 @@
      overflow-x: scroll;
 }    
 
-.add-div {
-     display: none;
-     position: fixed;
-     left: 0;
-     top: 0;
-     width: 100vw;
-     height: 100vh;
-     align-items: center;
-     justify-content: center;
-     background-color: rgba(0, 0, 0, 0.5);
-     z-index: 5;
-     overflow-y: scroll;
-}
-
-.form-data {
-     margin: 20px 0px;
-     width: 80vw;
-     background-color: white;
-     padding: 50px;
-     border-radius: 15px;
-     border: 1px solid black;
-}
-
-.form-data > div {
-     margin: 20px 0px;
-     display: grid;
-}
-
-.form-data > div > label {
-     font-weight: bold;
-     margin-bottom: 10px;
-}
-
-.form-data > div > input, .form-data > div > textarea {
-     padding: 10px;
-     border: 1px solid black;
-     border-radius: 5px;
-     resize: vertical;
-}
-
-.form-data > div > select {
+.service-and-category .data button {
      padding: 5px;
      border: 1px solid black;
      border-radius: 5px;
+     margin: 10px;
+     background-color: white;
+     cursor: pointer;
 }
 
-.form-data button {
-     padding: 10px 30px;
-     border: 1px solid black;
-     border-radius: 5px;
-}
-.form-data button:active {
+.service-and-category .data > button:active {
      transition: all 0.1s;
      background-color: black;
      color: white;
 }
 
-.form-data img {
-     width: 30px;
-     cursor: pointer;
-     opacity: 50%;
+
+#form-data > div {
+     margin: 20px 0px;
+     display: grid;
 }
-.form-data img:hover {
-     opacity: 100%;
+
+#form-data > div > label {
+     font-size: 1.5em;
+     font-weight: bold;
+     margin-bottom: 10px;
 }
-.form-data img:active {
+
+#form-data > div > input, #form-data > div > textarea {
+     padding: 10px;
+     border: 1px solid black;
+     border-radius: 5px;
+     resize: vertical;
+     font-size: 1.1em;
+}
+
+#form-data > div > select {
+     padding: 5px;
+     border: 1px solid black;
+     border-radius: 5px;
+     font-size: 1.1em;
+}
+
+#form-data button {
+     padding: 10px 30px;
+     border: 1px solid black;
+     border-radius: 5px;
+}
+#form-data button:active {
      transition: all 0.1s;
-     opacity: 50%;
+     background-color: black;
+     color: white;
+}
+
+.details-data {
+     overflow-x: scroll;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: column;
+}
+
+.details-data > p{
+     margin-bottom: 10px;
+}
+
+.description-container {
+     display: grid;
+}
+
+.description-container > textarea {
+     margin: 10px 0px;
+     border-radius: 10px;
+     padding: 10px;
 }
