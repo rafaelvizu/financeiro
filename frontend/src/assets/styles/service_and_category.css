@@ -24,3 +24,72 @@
      border-radius: 15px;
      overflow-x: scroll;
 }
+
+.add-div {
+     display: none;
+     position: fixed;
+     padding: 0;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     align-items: center;
+     justify-content: center;
+     background-color: rgba(0, 0, 0, 0.5);
+     z-index: 5;
+     overflow-y: scroll;
+}
+
+.form-data {
+     min-width: 80%;
+     background-color: white;
+     padding: 50px;
+     border-radius: 15px;
+     border: 1px solid black;
+}
+
+.form-data > div {
+     margin: 20px 0px;
+     display: grid;
+}
+
+.form-data > div > label {
+     font-weight: bold;
+     margin-bottom: 10px;
+}
+
+.form-data > div > input, .form-data > div > textarea {
+     padding: 10px;
+     border: 1px solid black;
+     border-radius: 5px;
+}
+
+.form-data > div > select {
+     padding: 5px;
+     border: 1px solid black;
+     border-radius: 5px;
+}
+
+.form-data button {
+     padding: 10px 30px;
+     border: 1px solid black;
+     border-radius: 5px;
+}
+.form-data button:active {
+     transition: all 0.1s;
+     background-color: black;
+     color: white;
+}
+
+.form-data img {
+     width: 30px;
+     cursor: pointer;
+     opacity: 50%;
+}
+.form-data img:hover {
+     opacity: 100%;
+}
+.form-data img:active {
+     transition: all 0.1s;
+     opacity: 50%;
+}
