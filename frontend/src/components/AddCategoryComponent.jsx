@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import api from "../services/api";
 import ModalComponent from "./ModalComponent";
 
-
 export default function AddCategoryComponent(props) {
      const [myId, setMyId] = useState("");
      const [myName, setMyName] = useState("");
@@ -15,6 +14,7 @@ export default function AddCategoryComponent(props) {
                setMyName(props.editData.name);
                setMyDescription(props.editData.description);
           }
+
      }, []);
 
      function clickButton() {
