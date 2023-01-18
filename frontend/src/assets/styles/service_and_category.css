@@ -34,7 +34,7 @@
      cursor: pointer;
 }
 
-.service-and-category .data > button:active {
+.service-and-category .data  button:active {
      transition: all 0.1s;
      background-color: black;
      color: white;
@@ -88,6 +88,8 @@
 .details-data > p{
      margin-bottom: 10px;
 }
+
+
 
 .description-container {
      display: grid;

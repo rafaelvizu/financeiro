@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
-    "build": "npm update && tsc"
+    "build": "npm update && tsc",
+    "start": "node dist/server.js"
   },
   "repository": {
     "type": "git",

@@ -14,6 +14,7 @@ export default function DetailsComponent(props) {
      }, [props.data, props.type])
      
      function deleteService() {
+          console.log(url, data._id)
           api.delete(`${url}/delete/${data._id}`)
           .then(response => {
                if (response.status === 200) {
