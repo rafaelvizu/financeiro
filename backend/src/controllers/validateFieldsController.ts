@@ -34,7 +34,7 @@ class ValidateService
 
 class ValidateCategory
 {
-     static async init({name, description, category} : {name:string, description:string, category:string}, update:string = "" )
+     static async init({name, description} : {name:string, description:string}, update:string = "" )
      {
 
           const valid = Joi.object({
@@ -52,7 +52,6 @@ class ValidateCategory
           }
           
 
-          valid.value.category = category;
           update?'':valid.value.createAt = new Date();
           valid.value.updateAt = new Date();
           

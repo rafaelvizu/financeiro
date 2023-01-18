@@ -79,7 +79,6 @@
 }
 
 .details-data {
-     overflow-x: scroll;
      display: flex;
      align-items: center;
      justify-content: center;

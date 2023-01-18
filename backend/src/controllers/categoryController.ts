@@ -2,7 +2,7 @@ import Category from "../models/categoryModel";
 import { Request, Response } from "express";
 import { ValidateCategory } from "./validateFieldsController";
 import { Types } from "mongoose";
-
+import ServicesModel from "../models/servicesModel";
 
 export default new class categoryController
 {
@@ -54,8 +54,10 @@ export default new class categoryController
           if (!dataValidated || !id)
                return res.status(400).json({ message: "Invalid fields" });
           
-          await Category.updateOne({ _id: id }, dataValidated)
-          .then(() => {
+          await Category.findByIdAndUpdate({ _id: id }, dataValidated)
+          .then(async (data) => {
+               await ServicesModel.updateMany({ category: data.name }, { category: dataValidated.name } ); 
+               console.log(await ServicesModel.find({ category: dataValidated.name }))      
                return res.status(200).json({ message: "Category updated" });
           })
           .catch((err) => {
@@ -67,7 +69,8 @@ export default new class categoryController
 
      public async deleteCategory(req:Request, res:Response): Promise<Response | void>
      {
-          const { id } = req.body;
+          const { id } = req.params;
+          console.log(id)
 
           if (!Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid ID" });
 

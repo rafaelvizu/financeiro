@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../services/api";
-import closeIcon from '../assets/images/icon_close.svg'
 import ModalComponent from "./ModalComponent";
 
 export default function AddServiceComponent(props) {
@@ -83,7 +82,7 @@ export default function AddServiceComponent(props) {
                               }
                          </select>
                     </div>
-                    <button>Adicionar</button>
+                    <button>Confirmar</button>
           </ModalComponent>
      )
 

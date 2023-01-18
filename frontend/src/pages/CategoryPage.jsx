@@ -1,8 +1,9 @@
 import api from '../services/api';
 import { useEffect, useState } from 'react';
 import LoadingComponent from '../components/LoadingComponent';
-import { Link } from 'react-router-dom';
 import '../assets/styles/service_and_category.css'
+import AddCategoryComponent from '../components/AddCategoryComponent';
+import DetailsComponent from '../components/DetailsComponent';
 
 
 
@@ -44,6 +45,7 @@ export default function CategoryPage() {
           <main className="service-and-category">
                <h2>Categorias</h2>
                <hr/>
+               <AddCategoryComponent/>
                <div className="data-container">
                     {
                          category.map((category) => {
@@ -63,7 +65,7 @@ export default function CategoryPage() {
                                              
                                              }
                                         </p>
-                                        <button>Detalhes</button>
+                                        <DetailsComponent data={category} url="/category"/>
                                    </article>
                               )
                          })

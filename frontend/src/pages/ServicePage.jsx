@@ -59,7 +59,7 @@ export default function ServicePage() {
                                              service.name
                                         }
                                    </p>
-                                  <DetailsComponent service={service}/>
+                                  <DetailsComponent data={service} url="/service"/>
                               </article>
                          )
                     })}

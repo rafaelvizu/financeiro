@@ -4,51 +4,66 @@ import api from '../services/api';
 import { toast } from "react-toastify";
 
 export default function DetailsComponent(props) {
-     const [service, setService] = useState({});
+     const [data, setData] = useState({});
+     const [url, setUrl] = useState("");
 
      useEffect(() => {
-          setService(props.service);
-     }, [])
+          setData(props.data);
+          setUrl(props.url);
+
+     }, [props.data, props.type])
      
-     function deleteService(url) {
-          api.delete(`${url}/${service._id}`)
+     function deleteService() {
+          api.delete(`${url}/delete/${data._id}`)
           .then(response => {
                if (response.status === 200) {
-                    toast.success("Serviço excluído com sucesso!");
+                    toast.success("Excluído com sucesso!");
                     return;
                }
 
-               toast.error("Erro ao excluir serviço!");
+               toast.error("Erro ao excluir!");
           })
           .catch(error => {
                console.error(error)
-               toast.error("Erro ao excluir serviço!");
+               toast.error("Erro interno ao excluir!");
                return
           })
      }
 
      return (
-          <ModalComponent textButton="Detalhes" id={`details${service._id}`}>
+          <ModalComponent textButton="Detalhes" id={`details${data._id}`}>
                          <article className="details-data">
                               <h2>Detalhes</h2>
                          
                               <p>
-                                   <strong>id:</strong> {service._id}
+                                   <strong>id:</strong> {data._id}
                               </p>
                               <p>
-                                   <strong>Nome:</strong> {service.name}
+                                   <strong>Nome:</strong> {data.name}
                               </p>
-                              <p>
-                                   <strong>Preço:</strong> R${service.price}
-                              </p>
+                              {
+                                   url === "/service" &&
+                                   <p>
+                                        <strong>Preço:</strong> R${data.price}
+                                   </p> &&
+                                   <p>
+                                        <strong>Categoria:</strong> {data.category}
+                                   </p>
+                              }
                               <p className="description-container">
                                    <strong>Descrição</strong> 
-                                   <textarea value={service.description}></textarea>
+                                   <textarea value={data.description} cols="20" rows="10"></textarea>
+                                   
+                              </p>
+                              <p>
+                                   <strong>Criado em: </strong>
+                                   {data.createAt}<br></br>
+                                   <strong>Última atualização:</strong> {data.updateAt}
                               </p>
 
                               <div>
                                    <button>editar</button>
-                                   <button onClick={() => deleteService('/services/delete')}>excluir</button>
+                                   <button onClick={() => deleteService()}>excluir</button>
                               </div>
                          </article>
           </ModalComponent>
