@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import ModalComponent from "./ModalComponent";
+import { validateCategory } from '../services/validation';    
 
 export default function AddCategoryComponent(props) {
      const [myId, setMyId] = useState("");
@@ -17,8 +18,46 @@ export default function AddCategoryComponent(props) {
 
      }, []);
 
-     function clickButton() {
-          
+     async function clickButton() {
+          const category = {
+               name: myName,
+               description: myDescription
+          };
+
+          if (!validateCategory(category)) return;
+               
+          if (myId) {
+               category.id = myId;
+
+               await api.put(`/category/update`, category).then((response) => {
+                    if (response.status === 200) {
+                         toast.success("Categoria editada com sucesso");
+                         props.reload();
+                         return;
+                    }
+
+                    toast.error("Erro ao editar categoria");
+               }).catch(() => {
+                    toast.error("Erro ao editar categoria");
+               });
+
+               return;
+          }
+
+          await api.post(`/category/add`, category)
+          .then((response) => {
+               if (response.status === 200) {
+                    toast.success("Categoria adicionada com sucesso");
+                    setMyDescription("");
+                    setMyName("");
+                    return;
+               }
+               toast.error("Erro ao adicionar categoria");
+               return;
+          }).catch(() => {
+               toast.error("Erro ao adicionar categoria");
+          })
+
      }
 
      return (
@@ -32,7 +71,7 @@ export default function AddCategoryComponent(props) {
                     <input type="text" name="description" id="description" placeholder="Descrição" onChange={(e) => setMyDescription(e.target.value)} value={myDescription}/>
                </div>
 
-               <button>Confirmar</button>
+               <button onClick={() => clickButton()}>Confirmar</button>
 
           </ModalComponent>
      )

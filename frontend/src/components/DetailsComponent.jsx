@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import  ModalComponent from '../components/ModalComponent';
 import api from '../services/api';
 import { toast } from "react-toastify";
+import AddCategoryComponent from './AddCategoryComponent';
+import AddServiceComponent from './AddServiceComponent';
 
 export default function DetailsComponent(props) {
      const [data, setData] = useState({});
@@ -13,7 +15,8 @@ export default function DetailsComponent(props) {
 
      }, [props.data, props.type])
      
-     function deleteService() {
+
+     function deleteData() {
           console.log(url, data._id)
           api.delete(`${url}/delete/${data._id}`)
           .then(response => {
@@ -31,11 +34,11 @@ export default function DetailsComponent(props) {
           })
      }
 
+
      return (
           <ModalComponent textButton="Detalhes" id={`details${data._id}`}>
                          <article className="details-data">
                               <h2>Detalhes</h2>
-                         
                               <p>
                                    <strong>id:</strong> {data._id}
                               </p>
@@ -63,8 +66,13 @@ export default function DetailsComponent(props) {
                               </p>
 
                               <div>
-                                   <button>editar</button>
-                                   <button onClick={() => deleteService()}>excluir</button>
+                                   {
+                                        url == "/services"?
+                                        <AddServiceComponent editData={data} /> :
+                                        <AddCategoryComponent editData={data}/>
+
+                                   }
+                                   <button onClick={() => deleteData()}>excluir</button>
                               </div>
                          </article>
           </ModalComponent>

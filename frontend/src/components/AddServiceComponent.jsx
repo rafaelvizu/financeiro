@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import ModalComponent from "./ModalComponent";
+import { validateService } from '../services/validation';
 
 export default function AddServiceComponent(props) {
      const [category, setCategory] = useState([]); 
@@ -10,20 +11,68 @@ export default function AddServiceComponent(props) {
      const [myPrice, setMyPrice] = useState(0);
      const [myDescription, setMyDescription] = useState("");
      const [editMode, setEditMode] = useState(false);
-     const [editId, setEditId] = useState("");
+     const [myId, setMyId] = useState("");
 
      useEffect(() => {
+          loadCategory();
           if (props.editData) {
                setEditMode(true);
-               setEditId(props.editData._id);
+               myId(props.editData._id);
                setMyName(props.editData.name);
                setMyPrice(props.editData.price);
                setMyDescription(props.editData.description);
-               setMyCategory(props.editData.category._id);
+               setMyCategory(props.editData.category);
+               if (myCategory in category.name) {
+                    setMyCategory(myCategory);
+               }
           }
 
-          loadCategory();
      }, [])
+
+     async function clickButton() {
+          const service = {
+               name: myName,
+               description: myDescription,
+               price: myPrice,
+               category: myCategory,
+          };
+
+          if (!validateService(service)) return;
+               
+          if (myId) {
+               category.id = myId;
+
+               await api.put(`/services/update`, service).then((response) => {
+                    if (response.status === 200) {
+                         toast.success("Categoria editada com sucesso");
+                         props.reload();
+                         return;
+                    }
+
+                    toast.error("Erro ao editar categoria");
+               }).catch(() => {
+                    toast.error("Erro ao editar categoria");
+               });
+
+               return;
+          }
+
+          await api.post(`/services/add`, service)
+          .then((response) => {
+               if (response.status === 200) {
+                    toast.success("Categoria adicionada com sucesso");
+                    setMyDescription("");
+                    setMyName("");
+                    setMyPrice(0);
+                    return;
+               }
+               toast.error("Erro ao adicionar categoria");
+               return;
+          }).catch(() => {
+               toast.error("Erro ao adicionar categoria");
+          })
+
+     }
 
      async function loadCategory() {
           await api.get("/category").then((response) => {
@@ -36,7 +85,7 @@ export default function AddServiceComponent(props) {
                     }
 
                     setCategory(response.data);
-                    setMyCategory(response.data[0]._id);
+                    setMyCategory(response.data[0]);
                     return;
                }
 
@@ -67,8 +116,8 @@ export default function AddServiceComponent(props) {
                          <label htmlFor="category">Categoria</label>
                          <select name="category" id="category" value={myCategory} onChange={(e) => {
                               category.filter((category) => {
-                                   if (category._id === e.target.value) {
-                                        setMyCategory(category._id);
+                                   if (category.name === e.target.value) {
+                                        setMyCategory(category.name);
                                         return;
                                    }
                               })
@@ -76,13 +125,13 @@ export default function AddServiceComponent(props) {
                               {
                                    category.map((category) => {
                                         return (
-                                             <option key={category._id} value={category._id}>{category.name}</option>
+                                             <option key={category._id} value={category.name}>{category.name}</option>
                                         )
                                    })
                               }
                          </select>
                     </div>
-                    <button>Confirmar</button>
+                    <button onClick={() => clickButton()}>Confirmar</button>
           </ModalComponent>
      )
 
