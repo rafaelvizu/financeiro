@@ -14,8 +14,11 @@ export default function AddCategoryComponent(props) {
                setMyId(props.editData._id);
                setMyName(props.editData.name);
                setMyDescription(props.editData.description);
+               return;
           }
 
+
+          setMyId("add");
      }, []);
 
      async function clickButton() {
@@ -26,13 +29,12 @@ export default function AddCategoryComponent(props) {
 
           if (!validateCategory(category)) return;
                
-          if (myId) {
+          if (myId !== "add") {
                category.id = myId;
 
                await api.put(`/category/update`, category).then((response) => {
                     if (response.status === 200) {
                          toast.success("Categoria editada com sucesso");
-                         props.reload();
                          return;
                     }
 
@@ -61,17 +63,18 @@ export default function AddCategoryComponent(props) {
      }
 
      return (
-          <ModalComponent textButton="adicionar" id="form-data">
-               <div>
-                    <label htmlFor="name">Nome da categoria</label>
-                    <input type="text" name="name" id="name" placeholder="Nome do categoria" onChange={(e) => setMyName(e.target.value)} value={myName}/>
+          <ModalComponent textButton={myId=='add'?'adicionar':'editar'} dataID={`category-${myId}`}>
+               <div id="form-data">
+                    <div>
+                         <label htmlFor="name">Nome da categoria</label>
+                         <input type="text" name="name" id="name" placeholder="Nome do categoria" onChange={(e) => setMyName(e.target.value)} value={myName}/>
+                    </div>
+                    <div>
+                         <label htmlFor="description">Descrição</label>
+                         <input type="text" name="description" id="description" placeholder="Descrição" onChange={(e) => setMyDescription(e.target.value)} value={myDescription}/>
+                    </div>
+                    <button onClick={() => clickButton()}>Confirmar</button>
                </div>
-               <div>
-                    <label htmlFor="description">Descrição</label>
-                    <input type="text" name="description" id="description" placeholder="Descrição" onChange={(e) => setMyDescription(e.target.value)} value={myDescription}/>
-               </div>
-
-               <button onClick={() => clickButton()}>Confirmar</button>
 
           </ModalComponent>
      )
