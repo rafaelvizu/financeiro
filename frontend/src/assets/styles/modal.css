@@ -15,7 +15,7 @@
      overflow: hidden;
 }
 
-.modal {
+#modal {
      display: none;
      position: fixed;
      left: 0;

@@ -10,22 +10,21 @@ export default function ModalComponent(props) {
      }, [props.dataID]);
 
      function openModal() {
-          const div = document.querySelector(`#modal-${id}`);
+          const div = document.querySelector(`.modal-${id}`);
           div.style.display = "flex";
      }
 
      function closeModal() {
-          const div = document.querySelector(`#modal-${id}`);
+          const div = document.querySelector(`.modal-${id}`);
           div.style.display = "none";
      }
 
      return (
           <div className="modal-container">
-               <div className="modal" id={`modal-${id}`}>
-                    
-               <div className="modal-children" id={`modal-children-${id}`}>
-                         <img src={closeIcon} alt="fechar janela" onClick={() => closeModal()}/>
-                         {props.children}
+               <div id='modal' className={`modal-${id}`}>
+                    <div className="modal-children">
+                              <img src={closeIcon} alt="fechar janela" onClick={() => closeModal()}/>
+                              {props.children}
                     </div>
                </div>
                <button onClick={() => openModal()}>{props.textButton}</button>

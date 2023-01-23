@@ -19,7 +19,6 @@ export default function Header() {
           
                handleClick() {
                     this.navList.classList.toggle(this.activeClass);
-                    console.log(this.activeClass)
                }
           
                addClickEvent() {

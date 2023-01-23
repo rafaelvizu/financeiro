@@ -12,21 +12,24 @@ export default function AddServiceComponent(props) {
      const [myDescription, setMyDescription] = useState("");
      const [myId, setMyId] = useState("");
 
-     useEffect(() => {          
+     useEffect(() => {   
+          loadCategory();       
           if (props.editData) {
-               setMyId(props.editData._id);
-               setMyName(props.editData.name);
-               setMyPrice(props.editData.price);
-               setMyDescription(props.editData.description);
-               setMyCategory(props.editData.category);
-               
+
+               if (props.editData._id) {
+                    setMyId(props.editData._id);
+                    setMyName(props.editData.name);
+                    setMyPrice(props.editData.price);
+                    setMyDescription(props.editData.description);
+                    setMyCategory(props.editData.category);
+               }
           } else setMyId("add");
 
-          loadCategory();
-     }, [])
+     }, []);
 
      async function clickButton() {
           const service = {
+               id: myId!=='add' ? myId : "",
                name: myName,
                description: myDescription,
                price: myPrice,
@@ -36,8 +39,7 @@ export default function AddServiceComponent(props) {
           if (!validateService(service)) return;
                
           if (myId !== "add") {
-               service.id = myId;
-
+               
                await api.put(`/services/update`, service).then((response) => {
                     if (response.status === 200) {
                          toast.success("Categoria editada com sucesso");
@@ -114,7 +116,7 @@ export default function AddServiceComponent(props) {
 
      
      return (
-          <ModalComponent textButton={myId=='add'?'adicionar':'editar'} id="form-data" dataID={`service-${myId}`}>
+          <ModalComponent textButton={myId=='add'?'adicionar':'editar'} dataID={`service-form-${myId}`}>
                     <div id="form-data">
                          <div>
                               <label htmlFor="name">Nome do serviço</label>

@@ -44,13 +44,13 @@ export default function ServicePage() {
           <main className="service-and-category">
                <h2>Serviços</h2>
                <hr/>
-               <AddServiceComponent/>
+               <AddServiceComponent dataID="add"/>
  
 
                <div className="data-container">
                     {services.map((service) => {
                          return (
-                              <article key={service._id} className="data">
+                              <article key={service._id} className="data" id={service._id}>
                                    <h3>R$ {service.price.toFixed(2)}</h3>
                                    <p>
                                         {

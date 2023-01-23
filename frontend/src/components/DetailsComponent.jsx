@@ -71,9 +71,8 @@ export default function DetailsComponent(props) {
                               <div className="container-edit-delete-button">
                                    {
                                         url == "/services"?
-                                        <AddServiceComponent editData={data} /> :
-                                        <AddCategoryComponent editData={data} />
-
+                                        <AddServiceComponent editData={props.data}/> :
+                                        <AddCategoryComponent editData={props.data} />
                                    }
                                    <button onClick={() => deleteData()}>excluir</button>
                               </div>

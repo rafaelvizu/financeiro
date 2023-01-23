@@ -14,14 +14,11 @@ class ValidateService
 
      static async init({ name, description, price, category } : { name:string, description:string, price:number, category:string }) 
      {
-          console.log(name, description, price, category);
           const valid = Joi.object({
                name: Joi.string().trim().min(3).max(20).required(),
                description: Joi.string().trim().min(3).max(100).required(),
                price: Joi.number().min(0).required(),
           }).validate({ name, description, price });
-
-          console.log(valid.error);
 
           if (valid.error) return false;
 

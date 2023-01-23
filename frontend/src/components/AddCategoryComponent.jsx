@@ -17,11 +17,9 @@ export default function AddCategoryComponent(props) {
                     setMyDescription(props.editData.description);
                }
 
-               return;
-
           } else setMyId("add");
 
-          return;
+          
      }, []);
 
      async function clickButton() {
@@ -66,7 +64,7 @@ export default function AddCategoryComponent(props) {
      }
 
      return (
-          <ModalComponent textButton={myId=='add'?'adicionar':'editar'} dataID={`category-${myId}`}>
+          <ModalComponent textButton={myId=='add'?'adicionar':'editar'} dataID={`category-form-${myId}`}>
                <div id="form-data">
                     <div>
                          <label htmlFor="name">Nome da categoria</label>
@@ -74,7 +72,7 @@ export default function AddCategoryComponent(props) {
                     </div>
                     <div>
                          <label htmlFor="description">Descrição</label>
-                         <input type="text" name="description" id="description" placeholder="Descrição" onChange={(e) => setMyDescription(e.target.value)} value={myDescription}/>
+                         <textarea name="description" id="description" placeholder="Descrição" onChange={(e) => setMyDescription(e.target.value)} value={myDescription}></textarea>
                     </div>
                     <button onClick={() => clickButton()}>Confirmar</button>
                </div>

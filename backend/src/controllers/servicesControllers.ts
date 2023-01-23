@@ -56,7 +56,7 @@ export default new class Controllers
 
           delete dataValidated.createAt;    
 
-          await Services.updateOne(dataValidated)
+          await Services.updateOne({ _id: id }, dataValidated)
           .then(() => {
                return res.status(200).json({ message: "Service Updated" });
           })
