@@ -23,12 +23,12 @@ export default function ServicePage() {
                          setServices(response.data);
                     }
 
-                    await new Promise((resolve) => setTimeout(resolve, 10000));
+                    await new Promise((resolve) => setTimeout(resolve,  6000));
                     
                } catch (error) {
                     console.error(error);
                     setLoadStatus(false);
-                    await new Promise((resolve) => setTimeout(resolve, 10000)); 
+                    await new Promise((resolve) => setTimeout(resolve,  6000)); 
                }
                
           }
