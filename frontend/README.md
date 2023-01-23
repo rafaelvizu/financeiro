@@ -18,5 +18,6 @@
 * react-router-dom
 * react-toastify
 * react-dom
+* dotenv
 * axios
 * react
