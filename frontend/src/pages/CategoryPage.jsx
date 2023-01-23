@@ -24,12 +24,12 @@ export default function CategoryPage() {
                     setCategory(response.data);
                }
 
-               await new Promise((resolve) => setTimeout(resolve, 5000));
+               await new Promise((resolve) => setTimeout(resolve, 10000));
                
           } catch (error) {
                console.error(error);
                setLoadStatus(false);
-               await new Promise((resolve) => setTimeout(resolve, 2000)); 
+               await new Promise((resolve) => setTimeout(resolve, 10000)); 
           }
           
           }
