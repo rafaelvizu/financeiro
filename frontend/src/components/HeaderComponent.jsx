@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../assets/styles/header.css";
+
 
 export default function Header() {
 
@@ -18,6 +19,7 @@ export default function Header() {
           
                handleClick() {
                     this.navList.classList.toggle(this.activeClass);
+                    console.log(this.activeClass)
                }
           
                addClickEvent() {
@@ -70,13 +72,15 @@ export default function Header() {
                }
           
           }
-     
 
-          new MobileNavBar('.mobile-menu', '.nav-list', '.nav-list li').init();
-          new NavBarFixed('.header-container').init();
+          const mobileNavBar = new MobileNavBar('.mobile-menu', '.nav-list', '.nav-list li');
+          mobileNavBar.init();
+
+          const navBarFixed = new NavBarFixed('.header-container');
+          navBarFixed.init();
 
           return;
-     }, [])
+     }, []);
 
      return (
           <div className="header-container">

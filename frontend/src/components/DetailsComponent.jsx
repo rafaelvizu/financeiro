@@ -13,7 +13,7 @@ export default function DetailsComponent(props) {
           setData(props.data);
           setUrl(props.url);
 
-     }, [props.data, props.type])
+     }, [props.data, props.url]);
      
 
      function deleteData() {
@@ -72,7 +72,7 @@ export default function DetailsComponent(props) {
                                    {
                                         url == "/services"?
                                         <AddServiceComponent editData={data} /> :
-                                        <AddCategoryComponent editData={data}/>
+                                        <AddCategoryComponent editData={data} />
 
                                    }
                                    <button onClick={() => deleteData()}>excluir</button>

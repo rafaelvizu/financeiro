@@ -1,6 +1,6 @@
 #home {
      padding: 30px 0px;
-     min-height: calc(100vh - 320px);
+     min-height: calc(100vh - 270px);
      width: 100%;
      display: flex;
      flex-direction: column;

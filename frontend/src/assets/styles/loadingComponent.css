@@ -1,5 +1,5 @@
 .loading-container {
-     min-height: calc(100vh - 320px);
+     min-height: calc(100vh - 270px);
      display: flex;
      justify-content: center;
      align-items: center;

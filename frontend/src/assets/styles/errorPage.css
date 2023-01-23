@@ -1,0 +1,26 @@
+.error-main {
+     width: 100vw;
+     min-height: calc(100vh - 270px); 
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.error-main > article {
+     padding: 50px 20px;
+     text-align: center;
+}
+
+.error-main > article > h1 {
+     font-size: 100px;
+     font-weight: 700;
+     color: #000;
+     margin-bottom: 20px;
+}
+
+.error-main > article > h2 {
+     font-size: 20px;
+     font-weight: 400;
+     color: #000;
+     margin-bottom: 20px;
+}

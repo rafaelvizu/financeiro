@@ -6,13 +6,13 @@ export default function FooterComponent() {
      return (
           <footer>
                <div className='dev-container'>
-                    <p>Desenvolvido por <a href="https://github.com/rafaelvizu" target="_blank" rel="author">Rafael Vizú</a></p>
+                    <p>Desenvolvido por <a>Rafael Vizú</a></p>
                </div>
                <div className='social-container'>
-                    <a href="" target="_blank" rel="author">
+                    <a href="https://github.com/rafaelvizu/financeiro" target="_blank" rel="author">
                          <img src={iconGitHub} alt="acessar repositório" />
                     </a>
-                    <a href="" target="_blank" rel="author">
+                    <a href="https://www.linkedin.com/in/rafael-vizu" target="_blank" rel="author">
                          <img src={iconLinkedin} alt="acessar linke" />
                     </a>
                </div>

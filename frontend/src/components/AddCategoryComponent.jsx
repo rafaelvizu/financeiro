@@ -11,14 +11,17 @@ export default function AddCategoryComponent(props) {
 
      useEffect(() => {
           if (props.editData) {
-               setMyId(props.editData._id);
-               setMyName(props.editData.name);
-               setMyDescription(props.editData.description);
+               if (props.editData._id) {
+                    setMyId(props.editData._id);
+                    setMyName(props.editData.name);
+                    setMyDescription(props.editData.description);
+               }
+
                return;
-          }
 
+          } else setMyId("add");
 
-          setMyId("add");
+          return;
      }, []);
 
      async function clickButton() {

@@ -85,12 +85,18 @@ export default function AddServiceComponent(props) {
                     
 
                     if (myId !== 'add') {
+                         let myCat;
                          data.filter((cat) => {
                               if (cat.name === myCategory) {
-                                   setMyCategory(cat.name);
+                                   myCat = cat.name;
+                                   return;
                               }
                          });
-                         return;   
+
+                         if (myCat) {
+                              setMyCategory(myCat);
+                              return;
+                         }
                     }
 
                     setMyCategory(data[0].name);

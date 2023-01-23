@@ -1,5 +1,13 @@
 # API FINANCEIRA
 
+## Inciar Projeto
+
+     npm install && npm run dev
+
+ou
+
+     npm install && npm run build && npm start
+
 ## Estrutura: MVC
 
 ### controllers
