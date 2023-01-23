@@ -16,7 +16,6 @@ app.use(cors());
 app.use(compression());
 app.use(express.static('public')); 
 app.use((req, res, next) => {
-     console.log(req.headers['x-acess-token'])
      if (process.env.PASSWORD === req.headers['x-acess-token']) {
           return next();
      }
