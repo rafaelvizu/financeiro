@@ -5,15 +5,23 @@ import "../assets/styles/header.css";
 
 export default function Header() {
 
+
+
      useEffect(() => {
-          class MobileNavBar {
-               constructor(mobileMenu, navList, navLinks) {
-                    this.mobileMenu = document.querySelector(mobileMenu);
-                    this.navList = document.querySelector(navList);
-                    this.navLinks = document.querySelectorAll(navLinks);
+          mobileNavBar();
+          navBarFixed();
+     }, [])
+
+     function mobileNavBar() {
+          new class MobileNavBar {
+               constructor() {
+                    this.mobileMenu = document.querySelector('.mobile-menu');
+                    this.navList = document.querySelector('.nav-list');
+                    this.navLinks = document.querySelectorAll('.nav-list li');
                     this.activeClass = "active";
           
                     this.handleClick = this.handleClick.bind(this);
+                    this.init();
                }
           
           
@@ -42,26 +50,27 @@ export default function Header() {
                     return this;
                }
           }
-          class NavBarFixed {
-               constructor(containerSelector) {
-                    this.container = document.querySelector(containerSelector);
+     }
+
+     function navBarFixed() {
+          new class NavBarFixed {
+               constructor() {
+                    this.container = document.querySelector('.header-container');
+                    this.init();
                }
           
                scrollEventHeader() {
                     const container = this.container;
           
-                    window.onload = function(e) {
-                         const offset = container.offsetTop;
-                         const menu = container;
-          
-                         document.addEventListener('scroll', function() {
-                              if (document.body.scrollTop > offset || document.documentElement.scrollTop > offset) {
-                                   menu.style.position = 'fixed'; 
-                              } else {
-                                   menu.style.position = 'static';
-                              }
-                         });
-                    }
+                    const fixedHeader = () => {
+                         if (window.scrollY >= 50) {
+                              container.classList.add('fixed');
+                         } else {
+                              container.classList.remove('fixed');
+                         }
+                    };
+
+                    window.addEventListener('scroll', fixedHeader);
                }
           
                init() {
@@ -71,15 +80,7 @@ export default function Header() {
                }
           
           }
-
-          const mobileNavBar = new MobileNavBar('.mobile-menu', '.nav-list', '.nav-list li');
-          mobileNavBar.init();
-
-          const navBarFixed = new NavBarFixed('.header-container');
-          navBarFixed.init();
-
-          return;
-     });
+     }
 
      return (
           <div className="header-container">
