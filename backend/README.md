@@ -1,5 +1,10 @@
 # API FINANCEIRA
 
+## Aplicações necessárias
+
+* Node.js
+* Mongodb
+
 ## Inciar Projeto
 
      npm install && npm run dev
@@ -119,5 +124,25 @@ ou
 * O campo *name* precisa ter de 3 a 20 caracteres;
 
 * O campo *description* precisa ter de 3 a 100 caracteres;
-  
+
+## Dependências
+
+### Desenvolvedor
+
+* @types/compression
+* @types/express
+* @types/cors
+* typescript
+* nodemon
+* ts-node
+
+### Produção
+
+* compression
+* mongoose
+* express
+* dotenv
+* cors
+* joi
+
 ## Criado por: Rafael Vizú
