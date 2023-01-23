@@ -79,7 +79,7 @@ export default function Header() {
           navBarFixed.init();
 
           return;
-     }, []);
+     });
 
      return (
           <div className="header-container">
