@@ -17,7 +17,7 @@ declare module 'express-session' {
 
 const app = express();  
 const FStore = FileStore(session);
-const SESSION_TIME_LIVE = 1000; // 1 hour
+const SESSION_TIME_LIVE = 100; // 1 hour
 
 // config express
 app.use(express.json());
@@ -42,7 +42,7 @@ clearSessionTask(SESSION_TIME_LIVE);
 
 
 // middleware
-app.use((req:Request, res:Response, next) => {
+app.use(async (req:Request, res:Response, next) => {
      if (req.session.userid)
      {
           res.locals.userid = req.session.userid;
@@ -51,6 +51,11 @@ app.use((req:Request, res:Response, next) => {
      next();
 });
 
+
+app.get('/', (req:Request, res:Response) => {
+     //console.log(req.session)
+     res.send('Hello World!');
+})
 
 MongoDB.Connect()
 .then(() => {

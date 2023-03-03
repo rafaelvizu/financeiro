@@ -30,7 +30,7 @@ export function clearSessionTask(SESSION_TIME_LIFE: number)
      cronn.schedule('*/10 * * * * *', () => {
           const files:(string[] | void) = searchFiles('./sessions');
 
-          
+     
           if (!files) return;
 
           files.forEach((file) => {
