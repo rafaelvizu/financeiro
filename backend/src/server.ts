@@ -1,39 +1,60 @@
-import express from 'express';
-import DB from './db';
-import categoryRoute from './routes/categoryRoute';
-import servicesRoute from './routes/servicesRoute';
-import cors from 'cors';
-import compression from 'compression';
-import homeRoute from './routes/homeRoute';
+// foreign imports
+import express, { Request, Response } from 'express';
+import session from 'express-session';
+import FileStore from 'session-file-store';
 import 'dotenv/config';
 
+// local imports
+import { clearSessionTask } from './helpers/sessionMenagerHelper';
+import MongoDB from './db/MongoDB';
+ 
+declare module 'express-session' {
+     export interface SessionData {
+          userid: string;
+     }
+}
 
-const app = express();
 
+const app = express();  
+const FStore = FileStore(session);
+const SESSION_TIME_LIVE = 1000; // 1 hour
+
+// config express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-app.use(compression());
-app.use(express.static('public')); 
-app.use((req, res, next) => {
-     if (process.env.PASSWORD === req.headers['x-acess-token']) {
-          return next();
+app.use(session({
+     secret: process.env.SECRET_SESSION || 'secret',
+     resave: false,
+     saveUninitialized: true,
+     store: new FStore({ 
+          logFn: function() {},
+          path: './sessions'
+     }),
+     cookie: {
+          maxAge: SESSION_TIME_LIVE,
+          secure: false,
+          httpOnly: true,
      }
-     
-     return res.status(401).json({ message: 'Unauthorized' });
-})
+}));
+
+// clear session task
+clearSessionTask(SESSION_TIME_LIVE);
 
 
-app.use('/category', categoryRoute);
-app.use('/services', servicesRoute);
-app.use('/', homeRoute);
+// middleware
+app.use((req:Request, res:Response, next) => {
+     if (req.session.userid)
+     {
+          res.locals.userid = req.session.userid;
+     }
 
-DB.connect()
-.then(() => {
-     app.listen(3000, () => {
-          console.log("Server running on port 3000");
-     });
-})
-.catch(err => {
-     console.error(err);  
+     next();
 });
+
+
+MongoDB.Connect()
+.then(() => {
+     console.clear();
+     console.log('MongoDB: Connected');
+     app.listen((process.env.PORT || 3000), () => console.log(`Server: Running on port http://localhost:${process.env.PORT || 3000}`))
+})
