@@ -58,3 +58,6 @@ MongoDB.Connect()
      console.log('MongoDB: Connected');
      app.listen((process.env.PORT || 3000), () => console.log(`Server: Running on port http://localhost:${process.env.PORT || 3000}`))
 })
+.catch((err) => {
+     console.log('MongoDB: ' + err);
+});

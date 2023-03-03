@@ -4,11 +4,7 @@ import 'dotenv/config';
 export default class MongoDB {
      static async Connect()
      {
-          console.log(process.env.DB_URL);
-          mongoose.connect(process.env.DB_URL || "")
-          .catch(() => {
-               console.log('MongoDB: Error');
-          })
+          await mongoose.connect(process.env.DB_URL || "")
      }
 
      static async Disconnect()
