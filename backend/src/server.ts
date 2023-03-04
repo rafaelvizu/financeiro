@@ -7,7 +7,10 @@ import 'dotenv/config';
 // local imports
 import { clearSessionTask } from './helpers/sessionMenagerHelper';
 import MongoDB from './db/MongoDB';
+
 import authRoute from './routes/authRoute';
+import clientsRoute from './routes/clientsRoute';
+import { checkAuth } from './helpers/authHelper';
  
 declare module 'express-session' {
      export interface SessionData {
@@ -23,7 +26,7 @@ const store = new FStore({
      path: './sessions',
 });
 
-const SESSION_TIME_LIVE = 360000; // 1 hour
+const SESSION_TIME_LIVE = 1000 * 60 * 60 * 24 * 7; // 7 days
 
 // config express
 app.use(express.json());
@@ -56,6 +59,7 @@ app.use(async (req:Request, res:Response, next) => {
 
 // routes
 app.use('/auth', authRoute);
+app.use('/clients', checkAuth, clientsRoute);
 
 
 app.get('/test', (req:Request, res:Response) => {
@@ -74,7 +78,7 @@ app.get('/', (req:Request, res:Response) => {
 
 MongoDB.Connect()
 .then(() => {
-     MongoDB.DropDatabase();
+     //MongoDB.DropDatabase();
      console.clear();
      console.log('MongoDB: Connected');
      app.listen((process.env.PORT || 3000), () => console.log(`Server: Running on port http://localhost:${process.env.PORT || 3000}`))

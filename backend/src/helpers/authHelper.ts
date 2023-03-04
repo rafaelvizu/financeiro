@@ -10,8 +10,9 @@ export async function checkAuth(req:any, res:any, next:any)
 
           await req.session.destroy((error:any) => {
                if (error) console.error(error);
+               return res.status(401).json({ message: "Unauthorized" });
+
           });
-          return res.status(401).json({ message: "Unauthorized" });
      })
      .catch(async (err) => {
           await req.session.destroy((error:any) => {
@@ -45,23 +46,4 @@ export async function checkUnAuth(req:any, res:any, next:any)
           console.error(`checkUnAuth: ${err}`);
           return res.status(500).json({ message: "Internal Server Error" });
      });
-}
-
-
-export function validateEmail(email:string)
-{
-     const re = /\S+@\S+\.\S+/;
-     return re.test(email);
-}
-
-export function validatePassword(password:string)
-{
-     const re = /^\S{6,16}$/;
-     return re.test(password);
-}
-
-export function validateName(name:string)
-{
-     const re = /^\S{2,16}$/;
-     return re.test(name);
 }

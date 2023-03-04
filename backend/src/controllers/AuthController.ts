@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 
 import User from "../models/Users";
-import { validateEmail, validateName, validatePassword } from "../helpers/authHelper";
+import { validateEmail, validateName, validatePassword } from "../helpers/validateHelper";
 
 export default class AuthController
 {
@@ -31,8 +31,20 @@ export default class AuthController
 
           await bcrypt.compare(password, user.password)
           .then(() => {
-               user.password = undefined; 
-               return res.status(200).json({ user });
+               const userData = {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    image_url: user.image_url,
+                    created: user.created
+               };
+
+               req.session.userid = userData.id;
+               req.session.save((err:any) => {
+                    if (err) console.error(err);
+
+                    return res.status(201).json({ user: userData });
+               });
           })
           .catch(() => {
                return res.status(401).json({ message: "Unauthorized" });
