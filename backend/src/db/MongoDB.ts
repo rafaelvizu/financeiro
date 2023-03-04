@@ -12,7 +12,7 @@ export default class MongoDB {
           mongoose.disconnect();
      }
 
-     static createModel(name:string, schema:mongoose.Schema)
+     static createModel(name:string, schema:object)
      {
           return mongoose.model(name, new mongoose.Schema(schema));
      }
