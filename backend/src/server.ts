@@ -10,6 +10,8 @@ import MongoDB from './db/MongoDB';
 
 import authRoute from './routes/authRoute';
 import clientsRoute from './routes/clientsRoute';
+import servicesRoute from './routes/servicesRoute';
+
 import { checkAuth } from './helpers/authHelper';
  
 declare module 'express-session' {
@@ -60,6 +62,7 @@ app.use(async (req:Request, res:Response, next) => {
 // routes
 app.use('/auth', authRoute);
 app.use('/clients', checkAuth, clientsRoute);
+app.use('/services', checkAuth, servicesRoute);
 
 
 app.get('/test', (req:Request, res:Response) => {

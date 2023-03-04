@@ -125,12 +125,17 @@ export default class ClientsController {
           }
 
           await Clients.updateOne({userid: req.session.userid, _id: id}, update)
-          .then(() => {
-               res.sendStatus(204);
+          .then((result) => {
+               if (result.modifiedCount === 0) 
+               {
+                    return res.status(404).json({message: 'Not Found'});
+               }
+               
+               return res.sendStatus(204);
           })
           .catch((err) => {
                console.error(err);
-               res.status(500).json({message: 'Internal Server Error'});
+               return res.status(500).json({message: 'Internal Server Error'});
           });
 
      }
