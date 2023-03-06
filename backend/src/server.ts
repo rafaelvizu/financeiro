@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import session from 'express-session';
 import FileStore from 'session-file-store';
 import 'dotenv/config';
+import cors from 'cors';
 
 // local imports
 import { clearSessionTask } from './helpers/sessionMenagerHelper';
@@ -44,6 +45,8 @@ app.use(session({
           httpOnly: true,
      }
 }));
+app.use(express.static('./public'));
+app.use(cors());
 
 // clear session task
 clearSessionTask(SESSION_TIME_LIVE);

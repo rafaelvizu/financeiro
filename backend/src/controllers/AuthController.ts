@@ -58,7 +58,7 @@ export default class AuthController
           // code
           const { name, email, password } = req.body;
 
-          if (!name || !email || !password)
+          if (!name || !email || !password || !req.file)
           {
                return res.status(400).json({ message: "Bad Request" });
           }
@@ -77,7 +77,7 @@ export default class AuthController
                name,
                email,
                password: await bcrypt.hash(password, 10),
-               image_url: "https://i.imgur.com/1Q9ZQ9r.png",
+               image_url: `http://localhost:3000/images/${req.file.filename}`,
                created: new Date()
           }  )
           .then((doc:any) => {
