@@ -114,4 +114,29 @@ export default class AuthController
                return res.status(200).json({ message: "Logout success" });
           });
      }
+
+
+     static async getUser(req:any, res:any)
+     {
+          // code
+          await User.findById(req.session.userid, { password: 0})
+          .then((doc:any) => {
+               if (!doc) return res.status(401).json({ message: "Unauthorized" });
+
+               const user = {
+                    id: doc._id,
+                    name: doc.name,
+                    email: doc.email,
+                    image_url: doc.image_url,
+                    created: doc.created
+               }
+
+               return res.status(200).json({ user });
+          })
+          .catch((err) => {
+               console.error(`auth/getUser: ${err}`);
+               return res.status(500).json({ message: "Internal Server Error" });
+          });
+     }
 }
+
