@@ -3,13 +3,13 @@ export default function user(state=[], action)
      switch (action.type)
      {
           case 'LOGIN_SUCCESS':
-               return {  ...state, ...action.user };
+               return {  ...state, user: action.user };
           case 'REGISTER_SUCCESS':
-               return { ...state, ...action.user };
+               return { ...state, user: action.user };
           case 'LOGOUT_SUCCESS':
                return { ...state, user: {} };
           case 'AUTH_LOADING':
-               return { ...action.value };
+               return { ...state, ...action.loading };
           default:
                return state;
      }

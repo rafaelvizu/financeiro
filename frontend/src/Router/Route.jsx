@@ -6,17 +6,17 @@ import { checkRequest, authLoading } from '../store/modules/user/actions';
 
 export default function RouteWrapper({ isPrivate, defaultComponent }) 
 {
-     const [loading, setLoading] = useState(true);
      const [signed, setSigned] = useState(false);
      const user = useSelector(state => state.user);
      
      const dispatch = useDispatch();    
 
      useEffect(() => {
-          dispatch(checkRequest());   
+          dispatch(checkRequest()); 
      }, []);
 
      useEffect(() => {
+          console.log(user);
           if (user.user)
           {
                setSigned(true);
@@ -25,14 +25,14 @@ export default function RouteWrapper({ isPrivate, defaultComponent })
           {
                setSigned(false);
           }
-          //setLoading(false);
-     }, [user]);
+
+     }, [user.user]);
 
 
 
      
 
-     if (loading) return <></>
+     if (true) return <></>
 
      if (!signed && isPrivate)
      {

@@ -1,5 +1,5 @@
 import { call, put, all, takeLatest } from 'redux-saga/effects';
-import { loginSuccess, registerSuccess, logoutSuccess } from './actions';
+import { loginSuccess, registerSuccess, logoutSuccess, authLoading } from './actions';
 import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
@@ -10,6 +10,7 @@ function* login({ email, password })
 
      try
      {
+          put(authLoading(true));
           const response = yield call(api.post, '/auth/login', { email, password }, {
                withCredentials: true,
           });
@@ -25,6 +26,8 @@ function* login({ email, password })
      {
           toast.error('Erro no login, verifique seus dados!');
      }
+
+     put(authLoading(false));
     
 }
 
@@ -33,6 +36,7 @@ function* register({ email, password })
 {
      try
      {
+          put(authLoading(true));
           const response = yield call(api.post, '/auth/register', { email, password });
           const { user } = response.data;
      
@@ -46,6 +50,8 @@ function* register({ email, password })
      {
           toast.error('Erro no cadastro, verifique seus dados!');
      }
+
+     put(authLoading(false));
 }
 
 
@@ -53,6 +59,7 @@ function* logout()
 {
      try
      {
+          put(authLoading(true));
           yield call(api.get, '/auth/logout', {
                withCredentials: true,
           });  
@@ -63,12 +70,16 @@ function* logout()
      {
           toast.error('Erro ao deslogar!');
      }
+
+     put(authLoading(false));
+
 }
 
 function* check()
 {
      try
      {
+          put(authLoading(true));
           const response = yield call(api.get, '/auth/check', {
                withCredentials: true,
           });
@@ -83,6 +94,8 @@ function* check()
      {
           yield put(logoutSuccess({}));
      }
+
+     put(authLoading(false));
 }
 
 
