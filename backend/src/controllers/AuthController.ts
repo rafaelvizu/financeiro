@@ -30,7 +30,7 @@ export default class AuthController
           if (!user) return res.status(401).json({ message: "Unauthorized" });
 
           await bcrypt.compare(password, user.password)
-          .then(() => {
+          .then(async() => {
                const userData = {
                     id: user.id,
                     name: user.name,
@@ -40,9 +40,12 @@ export default class AuthController
                };
 
                req.session.userid = userData.id;
-               req.session.save((err:any) => {
-                    if (err) console.error(err);
-
+               await req.session.save((err:any) => {
+                    if (err) {
+                         console.error(err);
+                         return res.status(500).json({ message: "Internal Server Error" });
+                    }
+                    console.log(req.session);
                     return res.status(201).json({ user: userData });
                });
           })

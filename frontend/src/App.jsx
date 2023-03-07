@@ -1,3 +1,6 @@
+import { Provider } from 'react-redux'
+
+import store from './store'
 import './App.css'
 
 import { ToastContainer } from 'react-toastify'
@@ -9,7 +12,9 @@ function App() {
   return (
     <>
       <ToastContainer autoClose={2000}/>
-      <Router/>
+      <Provider store={store}>
+        <Router/>
+      </Provider>
     </>
   )
 }
