@@ -1,17 +1,35 @@
 import { Navigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { checkRequest, authLoading } from '../store/modules/user/actions';
 
 export default function RouteWrapper({ isPrivate, defaultComponent }) 
 {
-     const [loading, setLoading] = useState(false);
-     const signed = useSelector(state => state.user.signed);
+     const [loading, setLoading] = useState(true);
+     const [signed, setSigned] = useState(false);
+     const user = useSelector(state => state.user);
+     
+     const dispatch = useDispatch();    
 
      useEffect(() => {
-          console.log('signed: ', signed);
+          dispatch(checkRequest());   
      }, []);
+
+     useEffect(() => {
+          if (user.user)
+          {
+               setSigned(true);
+          }
+          else 
+          {
+               setSigned(false);
+          }
+          //setLoading(false);
+     }, [user]);
+
+
+
      
 
      if (loading) return <></>

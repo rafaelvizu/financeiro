@@ -118,6 +118,7 @@ export default class AuthController
 
      static async getUser(req:any, res:any)
      {
+          console.log(req.session);
           // code
           await User.findById(req.session.userid, { password: 0})
           .then((doc:any) => {

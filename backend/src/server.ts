@@ -46,7 +46,10 @@ app.use(session({
      }
 }));
 app.use(express.static('./public'));
-app.use(cors());
+app.use(cors({
+     credentials: true,
+     origin: 'http://localhost:5173',
+}));
 
 // clear session task
 clearSessionTask(SESSION_TIME_LIVE);

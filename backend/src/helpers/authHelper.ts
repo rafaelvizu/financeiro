@@ -1,13 +1,14 @@
 import User from "../models/Users";
 
 export async function checkAuth(req:any, res:any, next:any)
-{
+{     
      if (!req.session.userid) return res.status(401).json({ message: "Unauthorized" });
 
      await User.findById({ _id: req.session.userid}, {  email: 0, password: 0, image_url: 0 })
      .then(async (doc) => {
           if (doc) return next();
 
+          console.log(1)
           await req.session.destroy((error:any) => {
                if (error) console.error(error);
                return res.status(401).json({ message: "Unauthorized" });

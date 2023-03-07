@@ -7,57 +7,90 @@ import api from '../../../services/api';
 
 function* login({ email, password })
 {
-     const response = yield call(api.post, '/auth/login', { email, password });
 
-
-     const { user } = response.data;
-
-
-     if (user)
+     try
      {
-          return yield put(loginSuccess(user));
+          const response = yield call(api.post, '/auth/login', { email, password }, {
+               withCredentials: true,
+          });
+          const { user } = response.data;
+     
+          if (user)
+          {
+               toast.success('Login realizado com sucesso!');
+               yield put(loginSuccess(user));
+          }
      }
-
-     toast.error('E-mail ou senha inválidos');
+     catch (err)
+     {
+          toast.error('Erro no login, verifique seus dados!');
+     }
+    
 }
 
 
 function* register({ email, password })
 {
-     const response = yield call(api.post, '/auth/register', { email, password });
-
-     const { token, user } = response.data;  
-
-     if (token && user)
+     try
      {
-          alert('Usuário cadastrado com sucesso!');
-          api.defaults.headers.Authorization = `Bearer ${token}`;
-
-          return yield put(registerSuccess(user));
+          const response = yield call(api.post, '/auth/register', { email, password });
+          const { user } = response.data;
+     
+          if (user)
+          {
+               toast.success('Cadastro realizado com sucesso!');
+               yield put(registerSuccess(user));
+          }    
      }
-
-     toast.error('Erro no cadastro, verifique seus dados!');
+     catch (err)
+     {
+          toast.error('Erro no cadastro, verifique seus dados!');
+     }
 }
 
 
 function* logout()
 {
-     const response = yield call(api.post, '/auth/logout');
-     if (response.status === 200)
+     try
      {
-          api.defaults.headers.Authorization = null;
-          return yield put(logoutSuccess());
+          yield call(api.get, '/auth/logout', {
+               withCredentials: true,
+          });  
+          toast.success('Deslogado com sucesso!');
+          yield put(logoutSuccess({}));
      }
-
-     toast.error('Erro ao sair do sistema!');
+     catch
+     {
+          toast.error('Erro ao deslogar!');
+     }
 }
 
+function* check()
+{
+     try
+     {
+          const response = yield call(api.get, '/auth/check', {
+               withCredentials: true,
+          });
+          const user = response.data;
+
+          if (user)
+          {
+               yield put(loginSuccess(user));
+          }
+     }
+     catch
+     {
+          yield put(logoutSuccess({}));
+     }
+}
 
 
 export default all([
      takeLatest('LOGIN_REQUEST', login),
      takeLatest('REGISTER_REQUEST', register),
      takeLatest('LOGOUT_REQUEST', logout),
+     takeLatest('CHECK_REQUEST', check),
 ]);
 
 
