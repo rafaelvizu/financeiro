@@ -56,11 +56,3 @@ export function checkRequest()
      type: 'CHECK_REQUEST',
      };
 }
-
-export function authLoading(value)
-{
-     return {
-     type: 'AUTH_LOADING',
-     loading: value,
-     };
-}

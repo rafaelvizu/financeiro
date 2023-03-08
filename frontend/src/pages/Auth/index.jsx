@@ -10,29 +10,24 @@ export default (props) => {
      const [email, setEmail] = useState(''); 
      const [password, setPassword] = useState('');
      const [confirmPassword, setConfirmPassword] = useState('');
-
-
      const dispatch = useDispatch();
 
 
 
      useEffect(() => {
           setPageTo(props.pageTo);
-
      }, [props.pageTo]);
 
 
-     function handleSubmit(e)
+     function handleSubmit(e) 
      {
           e.preventDefault();
 
-          if (pageTo == 'LOGIN')
-          {
+          if(pageTo=='LOGIN') {
                dispatch(loginRequest(email, password));
-               return;
+          } else {
+               dispatch(registerRequest(userImage, name, email, password, confirmPassword));
           }
-
-          dispatch(registerRequest(email, password, name, userImage));
      }
 
      return (
@@ -44,35 +39,39 @@ export default (props) => {
                          pageTo=='REGISTER' &&
                          <>
                               <div>
-                                   <label htmlFor="user-image">Imagem de perfil</label>
+                                   <label htmlFor="user-image">
                                    <input type="file" name="user_image" id="user-image" 
-                                   value={userImage} onChange={(e) => setUserImage(e.target.value)}/>
+                                   value={userImage} onChange={(e) => setUserImage(e.target.value)} required />
+                                   </label>
+                                   
                               </div>
 
                               <div>
                                    <label htmlFor="name">Nome</label>
                                    <input type="text" name="name" id="name" value={name}
-                                   onChange={(e) => setName(e.target.value)}/>
+                                   onChange={(e) => setName(e.target.value)} minLength="2" maxLength="16" required/>
                               </div>
                          </>
                     }
                     <div>
                          <label htmlFor="email">Email</label>
                          <input type="email" name="email" id="email" 
-                         value={email} onChange={(e) => setEmail(e.target.value)}/>
+                         value={email} onChange={(e) => setEmail(e.target.value)}
+                         required/>
                     </div>
 
                     <div>
                          <label htmlFor="password">Senha</label>
                          <input type="password" name="password" id="password" 
-                         value={password} onChange={(e) => setPassword(e.target.value)}/>
+                         value={password} onChange={(e) => setPassword(e.target.value)}
+                         minLength="6" maxLength="16" required/>
                     </div>
 
                     {pageTo=='REGISTER' && 
                          <div>
                               <label htmlFor="confirm-password">Confirmar senha</label>
                               <input type="password" name="confirm_password" id="confirm-password" 
-                              value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+                              value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} minLength="6" maxLength="16" required/>
                          </div>
                     }
 

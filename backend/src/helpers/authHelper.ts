@@ -8,9 +8,8 @@ export async function checkAuth(req:any, res:any, next:any)
      .then(async (doc) => {
           if (doc) return next();
 
-          console.log(1)
           await req.session.destroy((error:any) => {
-               if (error) console.error(error);
+               if (error) return res.status(500).json({ message: "Internal Server Error" });
                return res.status(401).json({ message: "Unauthorized" });
 
           });
